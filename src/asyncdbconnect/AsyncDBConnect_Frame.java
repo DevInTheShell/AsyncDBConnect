@@ -23,13 +23,6 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
         setTitle("AsyncDBConnect");
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 600));
-        addWindowListener(new java.awt.event.WindowAdapter()
-        {
-            public void windowOpened(java.awt.event.WindowEvent evt)
-            {
-                asyncDBConnect_Frame_Opened(evt);
-            }
-        });
 
         start_Button.setText("Start");
         start_Button.setName("Start_Button"); // NOI18N
@@ -110,18 +103,17 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
         List rows = OracleDatabaseConnect.getAllRowsFromUsersTable();
         DefaultTableModel model = (DefaultTableModel) users_Table.getModel();
         
+        while(model.getRowCount() > 0)
+        {
+            model.removeRow(0);
+        }
+        
         for(int i=0; i<rows.size(); i++)
         {
             String[] row = (String[]) rows.get(i);
             model.addRow(new String[] { row[0], row[1], row[2], row[3] });
         }
     }//GEN-LAST:event_start_Button_MouseClicked
-
-    private void asyncDBConnect_Frame_Opened(java.awt.event.WindowEvent evt)//GEN-FIRST:event_asyncDBConnect_Frame_Opened
-    {//GEN-HEADEREND:event_asyncDBConnect_Frame_Opened
-        DefaultTableModel model = (DefaultTableModel) users_Table.getModel();
-        model.removeRow(0);
-    }//GEN-LAST:event_asyncDBConnect_Frame_Opened
 
     public static void main(String args[])
     {
