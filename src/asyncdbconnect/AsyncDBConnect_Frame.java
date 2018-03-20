@@ -31,7 +31,7 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
             isRunning = true;
         }
         
-        public void stop()
+        public void interrupt()
         {
             worker.interrupt();
             isRunning = false;
@@ -71,18 +71,25 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
             }
             catch (SQLException ex)
             {
-                ex.printStackTrace();
+                System.out.println(ex);
             }
             
             timer.stop();
             start_Button.setEnabled(true);
             stop_Button.setEnabled(false);
+            clear_Button.setEnabled(true);
         }
     }
     
     public AsyncDBConnect_Frame()
     {
         initComponents();
+        
+        DefaultTableModel model = (DefaultTableModel) users_Table.getModel();
+        if(model.getRowCount() > 0)
+        {
+            model.removeRow(0);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -94,6 +101,7 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
         users_Table = new javax.swing.JTable();
         time_label = new javax.swing.JLabel();
         stop_Button = new javax.swing.JButton();
+        clear_Button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AsyncDBConnect");
@@ -157,6 +165,16 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
             }
         });
 
+        clear_Button.setText("Clear");
+        clear_Button.setEnabled(false);
+        clear_Button.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                clear_Button_MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -169,6 +187,8 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
                         .addComponent(start_Button)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(stop_Button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clear_Button)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(time_label)))
                 .addContainerGap())
@@ -180,9 +200,10 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(start_Button)
                     .addComponent(time_label)
-                    .addComponent(stop_Button))
+                    .addComponent(stop_Button)
+                    .addComponent(clear_Button))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -197,13 +218,12 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
     {//GEN-HEADEREND:event_start_Button_MouseClicked
         start_Button.setEnabled(false);
         stop_Button.setEnabled(true);
-        
-        DefaultTableModel model = (DefaultTableModel) users_Table.getModel();
-        model.removeRow(0);
+        time_label.setText(String.format("0s"));
         
         ActionListener taskPerformer = new ActionListener()
         {
             int time = 0;
+            @Override
             public void actionPerformed(ActionEvent evt)
             {
                 time += 1;
@@ -219,11 +239,25 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
 
     private void stop_ButtonMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_stop_ButtonMouseClicked
     {//GEN-HEADEREND:event_stop_ButtonMouseClicked
-        thread1.stop();
+        thread1.interrupt();
         timer.stop();
         start_Button.setEnabled(true);
         stop_Button.setEnabled(false);
+        clear_Button.setEnabled(true);
     }//GEN-LAST:event_stop_ButtonMouseClicked
+
+    private void clear_Button_MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_clear_Button_MouseClicked
+    {//GEN-HEADEREND:event_clear_Button_MouseClicked
+        time_label.setText(String.format("0s"));
+        
+        DefaultTableModel model = (DefaultTableModel) users_Table.getModel();
+        while(model.getRowCount() > 0)
+        {
+            model.removeRow(0);
+        }
+        
+        clear_Button.setEnabled(false);
+    }//GEN-LAST:event_clear_Button_MouseClicked
 
     public static void main(String args[])
     {
@@ -265,6 +299,7 @@ public class AsyncDBConnect_Frame extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clear_Button;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton start_Button;
     private javax.swing.JButton stop_Button;

@@ -39,6 +39,8 @@
                       <Component id="start_Button" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="stop_Button" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="clear_Button" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="time_label" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -55,9 +57,10 @@
                   <Component id="start_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="time_label" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="stop_Button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="clear_Button" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="275" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="549" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -116,6 +119,15 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="stop_ButtonMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="clear_Button">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clear"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clear_Button_MouseClicked"/>
       </Events>
     </Component>
   </SubComponents>
